@@ -7,16 +7,20 @@ import (
 )
 
 func SetupRoutes(router *gin.Engine) {
+	// продукты
 	router.GET("/products", handler.HandleProductProxy)
-	router.POST("/products", handler.HandleProductProxy) 
+	router.GET("/products/:id", handler.HandleProductProxy)
 
-	order := router.Group("/orders")
+	router.POST("/products", middleware.AuthRequired(), handler.HandleProductProxy)
+	router.PATCH("/products/:id", middleware.AuthRequired(), handler.HandleProductProxy)
+	router.DELETE("/products/:id", middleware.AuthRequired(), handler.HandleProductProxy)
+
+	//заказы
+	order := router.Group("/orders", middleware.AuthRequired())
 	{
-		order.POST("", middleware.AuthRequired(), handler.HandleOrderProxy)
-		order.PATCH("/:id", middleware.AuthRequired(), handler.HandleOrderProxy)
-
-		// Открытые маршруты
-		order.GET("", handler.HandleOrderProxy)       // ?user=...
-		order.GET("/:id", handler.HandleOrderProxy)   // по ID
+		order.POST("", handler.HandleOrderProxy)
+		order.PATCH("/:id", handler.HandleOrderProxy)
+		order.GET("", handler.HandleOrderProxy)
+		order.GET("/:id", handler.HandleOrderProxy)
 	}
 }

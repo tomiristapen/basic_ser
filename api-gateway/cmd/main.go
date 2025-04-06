@@ -13,28 +13,22 @@ import (
 )
 
 func main() {
-	// Загружаем .env файл
 	if err := godotenv.Load(); err != nil {
 		log.Println(" .env файл не найден, продолжаем...")
 	}
 
-	// Получаем порт из .env или по умолчанию
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8082"
 	}
-
-	// Инициализация Gin
 	router := gin.Default()
 
-	// Кастомный логгер
 	router.Use(middleware.RequestLogger())
 
-	// Prometheus middleware
+	// Prometheus
 	prometheus := ginprometheus.NewPrometheus("api_gateway")
 	prometheus.Use(router)
 
-	// роуты
 	routes.SetupRoutes(router)
 
 	log.Println(" API Gateway работает на порту:", port)

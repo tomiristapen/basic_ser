@@ -11,10 +11,8 @@ func RequestLogger() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		start := time.Now()
 
-		// Пропускаем запрос дальше
 		c.Next()
 
-		// После запроса
 		duration := time.Since(start)
 
 		log.Println("[LOGGING] -------------------------")

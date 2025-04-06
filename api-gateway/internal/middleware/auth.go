@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-const validToken = "mysecrettoken" // можешь вынести в .env
+const validToken = "mysecrettoken" 
 
 func AuthRequired() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -19,7 +19,6 @@ func AuthRequired() gin.HandlerFunc {
 			return
 		}
 
-		// "Bearer <токен>"
 		parts := strings.Split(authHeader, " ")
 		if len(parts) != 2 || parts[0] != "Bearer" || parts[1] != validToken {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid token"})

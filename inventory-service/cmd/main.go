@@ -1,28 +1,27 @@
 package main
 
 import (
-    "inventory-service/config"
-    "inventory-service/internal/handler"
-    "inventory-service/internal/repository"
-    "inventory-service/internal/usecase"
-    "github.com/gin-gonic/gin"
+	"inventory-service/config"
+	"inventory-service/internal/handler"
+	"inventory-service/internal/repository"
+	"inventory-service/internal/routes"
+	"inventory-service/internal/usecase"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
-    // Подключаем БД
-    config.ConnectDB()
-    db := config.DB
+	config.ConnectDB()
+	db := config.DB
 
-    // Слои
-    productRepo := repository.NewProductMongoRepo(db)
-    productUC := usecase.NewProductUseCase(productRepo)
-    productHandler := handler.NewProductHandler(productUC)
+	productCollection := db.Collection("products")
+	productRepo := repository.NewProductMongoRepo(productCollection)
+	productUC := usecase.NewProductUseCase(productRepo)
+	productHandler := handler.NewProductHandler(productUC)
 
-    // Запуск сервера
-    r := gin.Default()
+	r := gin.Default()
 
-    r.POST("/products", productHandler.CreateProduct)
-    r.GET("/products", productHandler.GetAllProducts)
+	routes.SetupRoutes(r, productHandler)
 
-    r.Run(":8080") // http://localhost:8080
+	r.Run(":8080")
 }
