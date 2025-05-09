@@ -7,13 +7,15 @@ import (
 
 type Order struct {
     ID        primitive.ObjectID `bson:"_id,omitempty" json:"id"`
-    UserID    string             `bson:"userId" json:"userId"`
+    UserID    string             `bson:"user_id" json:"user_id"`
     Products  []OrderItem        `bson:"products" json:"products"`
-    Status    string             `bson:"status" json:"status"` // pending, completed, cancelled
-    CreatedAt time.Time          `bson:"createdAt" json:"createdAt"`
+    Status    string             `bson:"status" json:"status"`
+    CreatedAt time.Time          `bson:"created_at" json:"created_at"`
 }
 
 type OrderItem struct {
-    ProductID string `bson:"productId" json:"productId"`
-    Quantity  int    `bson:"quantity" json:"quantity"`
+    ProductID string  `bson:"productId" json:"productId"`
+    Quantity  int     `bson:"quantity" json:"quantity"`
+    Price     float64 `bson:"price" json:"price"` 
 }
+

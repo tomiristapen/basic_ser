@@ -7,7 +7,6 @@ import (
 )
 
 func SetupRoutes(router *gin.Engine) {
-	// продукты
 	router.GET("/products", handler.HandleProductProxy)
 	router.GET("/products/:id", handler.HandleProductProxy)
 
@@ -15,7 +14,6 @@ func SetupRoutes(router *gin.Engine) {
 	router.PATCH("/products/:id", middleware.AuthRequired(), handler.HandleProductProxy)
 	router.DELETE("/products/:id", middleware.AuthRequired(), handler.HandleProductProxy)
 
-	//заказы
 	order := router.Group("/orders", middleware.AuthRequired())
 	{
 		order.POST("", handler.HandleOrderProxy)

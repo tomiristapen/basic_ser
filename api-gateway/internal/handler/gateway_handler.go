@@ -9,15 +9,15 @@ import (
 )
 
 func HandleProductProxy(c *gin.Context) {
-	proxyRequest(c, os.Getenv("INVENTORY_SERVICE_URL"))
+	proxyRequest(c, os.Getenv("INVENTORY_GRPC_URL"))
 }
 
 func HandleOrderProxy(c *gin.Context) {
-	proxyRequest(c, os.Getenv("ORDER_SERVICE_URL"))
+	proxyRequest(c, os.Getenv("ORDER_GRPC_URL"))
 }
 
 func proxyRequest(c *gin.Context, target string) {
-	req, err := http.NewRequest(c.Request.Method, target+c.Request.RequestURI, c.Request.Body)
+	req, err := http.NewRequest(c.Request.Method, "http://"+target+c.Request.RequestURI, c.Request.Body)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "proxy error"})
 		return

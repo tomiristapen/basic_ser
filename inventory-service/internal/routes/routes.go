@@ -6,10 +6,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func SetupRoutes(r *gin.Engine, h *handler.ProductHandler) {
-	r.POST("/products", h.CreateProduct)
-	r.GET("/products", h.GetAllProducts)
-	r.GET("/products/:id", h.GetProductByID)
-	r.PATCH("/products/:id", h.UpdateProduct)
-	r.DELETE("/products/:id", h.DeleteProduct)
+func SetupRoutes(r *gin.Engine, productHandler *handler.ProductHandler, promotionHandler *handler.PromotionHandler) {
+	r.POST("/products", productHandler.CreateProduct)
+	r.GET("/products", productHandler.GetAllProducts)
+	r.GET("/products/:id", productHandler.GetProductByID)
+	r.PATCH("/products/:id", productHandler.UpdateProduct)
+	r.DELETE("/products/:id", productHandler.DeleteProduct)
+ 
+	r.POST("/promotions", promotionHandler.CreatePromotion)
+	r.GET("/promotions", promotionHandler.GetAllPromotions)
+	r.DELETE("/promotions/:id", promotionHandler.DeletePromotion)
 }

@@ -34,7 +34,6 @@ func (h *ProductHandler) CreateProduct(c *gin.Context) {
 }
 
 func (h *ProductHandler) GetAllProducts(c *gin.Context) {
-	// Фильтрация
 	filter := make(map[string]interface{})
 	if category := c.Query("category"); category != "" {
 		filter["category"] = category
